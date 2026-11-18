@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); cmd=${input%%'\"tool_response\"'*}; case \"$cmd\" in *'git push'*|*'gh pr create'*|*'gh pr ready'*|*'gh pr merge'*|*'gh pr close'*|*'gh pr reopen'*|*'gh pr edit'*) printf '%s\\n' '{\"hookSpecificOutput\": {\"hookEventName\": \"PostToolUse\", \"additionalContext\": \"You just changed something on GitHub. Per AGENTS.md, update the matching Notion ticket now: Status (In progress / In review / Done), the PR URL in Link, and a one-line note of what changed. Create the ticket under its milestone if it doesn'\\''t exist. If the Notion tools aren'\\''t available, tell the user.\"}}';; esac",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
